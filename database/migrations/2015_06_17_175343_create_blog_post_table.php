@@ -26,6 +26,6 @@ class CreateBlogPostTable extends Migration
      */
     public function down()
     {
-        Scheam::drop("blog_posts");
+        Schema::drop("blog_posts");
     }
 }
