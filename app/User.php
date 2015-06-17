@@ -12,6 +12,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 {
     use Authenticatable, CanResetPassword;
 
+    /**
+     * @var array THe roles a user can take, viewers can only look at posts,
+     * editors can modify posts
+     */
     public static $roles = ["viewer", "editor"];
 
     /**

@@ -10,6 +10,7 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+//#########USERS#########
 
 $factory->define(App\User::class, function ($faker) {
     return [
@@ -18,4 +19,20 @@ $factory->define(App\User::class, function ($faker) {
         'password' => str_random(10),
         'remember_token' => str_random(10),
     ];
+});
+
+$factory->define(App\User::class, "editor", function ($faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+    return array_merge(["role" => "editor"]);
+});
+
+//#########BLOG POSTS#########
+
+$factory->define(App\BlogPost::class, function($faker) {
+   return [
+       "title" => $faker->words(4),
+       "body" => $faker->paragraphs(4),
+       "creator" => $faker->randomDigitNotNull,
+       "created_at" => $faker->dateTime
+   ];
 });

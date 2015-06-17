@@ -16,6 +16,7 @@ class CreateBlogPostTable extends Migration
             $table->increments("id");
             $table->timestamp("created_at");
             $table->text("body");
+            $table->string("title");
         });
     }
 
