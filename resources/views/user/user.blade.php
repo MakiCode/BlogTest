@@ -4,6 +4,7 @@
 
 @section('content')
 <h2>Information:</h2>
+@if(Auth::user())
 <a href="{{ url('home/edit') }}">Update</a>
 <form method="post" action="{{ url('/home') }}">
     <input type="hidden" name="_method" value="DELETE">
@@ -11,6 +12,7 @@
 
     <button type="submit">Delete</button>
 </form>
+@endif
 <div>Name: {{$user->name}}</div>
 <div>Role: {{$user->role}}</div>
 

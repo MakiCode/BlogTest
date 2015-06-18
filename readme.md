@@ -1,3 +1,7 @@
+To see this in action, you need to install (laravel homestead)[http://laravel.com/docs/5.1/homestead].
+
+I also made a video (and added it to this repository) ahowing off the site in action
+
 A blog! It has user authentification, password renewal, passoword forget, users can post, only certain users can edit, and a few more standard blog-like features! Unfortunately I did not have time to write unit tests in the 24 hours, but I'll add them afterward!
   
 And I used the pre-generated version of IDE helper (https://github.com/barryvdh/laravel-ide-helper) to help with auto-complete

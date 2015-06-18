@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -22,7 +23,11 @@ class UserController extends Controller
         if($id == null) {
             $user = Auth::user();
         } else {
-            $user = User::findOrFail($id);
+            try {
+                $user = User::findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                abort(404);
+            }
         }
 
         if($user == null) {
