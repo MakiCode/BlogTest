@@ -11,9 +11,14 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicExample()
+    public function testOrder()
     {
-        $this->visit('/')
-             ->see('Laravel 5');
+        $this->call("GET", "/");
+        $this->assertResponseOk();
+
+        $titles = DB::table("blog_posts")->select('title')->orderBy('title','desc')->take(20);
+        foreach($titles as $title) {
+            $this->assertViewHas($title);
+        }
     }
 }
