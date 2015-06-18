@@ -4,6 +4,6 @@
 
 @section('content')
 
-@include('blog.blog_list')
+@include('blog.post')
 
 @endsection

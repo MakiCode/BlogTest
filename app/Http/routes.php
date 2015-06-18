@@ -13,9 +13,12 @@
 
 Route::get('/', 'BlogPostController@index', ["as" => 'index']);
 Route::get('{id}', 'BlogPostController@show', ["as" => 'show']);
-Route::group(['middleware' => ['auth', 'role:editor']], function () {
+Route::group(['middleware' => ['auth']], function () {
+    //Spec says nothing about only authorized users creating, so we'll let anyone with an account do that
     Route::get('/create', 'BlogPostController@create', ["as" => 'create']);
     Route::post('/', 'BlogPostController@store', ["as" => 'store']);
+});
+Route::group(['middleware' => ['auth', 'role:editor']], function () {
     Route::get('{id}/edit', 'BlogPostController@edit', ["as" => 'edit']);
     Route::put('{id}', 'BlogPostController@update', ["as" => 'update']);
     Route::patch('{id}', 'BlogPostController@update', ["as" => '']);
@@ -30,7 +33,7 @@ Route::group(['prefix' => 'home'], function () {
     Route::get('/edit', 'UserController@edit', ["as" => 'me.edit']);
     Route::put('/', 'UserController@update', ["as" => 'me.update']);
     Route::patch('/', 'UserController@update', ["as" => 'me.update']);
-    Route::delete('/', 'UserController@delete', ["as" => 'me.delete']);
+    Route::delete('/', 'UserController@destroy', ["as" => 'me.delete']);
 });
 
 //All the following was copy-pasted from the laravel docs

@@ -1,1 +1,1 @@
-Blog DONE,  user system, Pretty, tests
+Blog DONE,  user system DONE, Pretty DONE, tests

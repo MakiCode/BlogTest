@@ -72,7 +72,7 @@ class BlogPostController extends Controller
     public function show($id)
     {
         try {
-            return view("blog.one", ['post' => BlogPost::findOrFail($id)]);
+            return view("blog.display_post", ['post' => BlogPost::findOrFail($id)]);
         } catch (ModelNotFoundException $e) {
             abort(404);
         }

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Update ' . htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8'))
+@section('title', 'Update ' . htmlentities($post->title))
 
 @section('content')
 

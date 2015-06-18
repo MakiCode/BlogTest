@@ -12,36 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -55,39 +25,60 @@ class UserController extends Controller
             $user = User::findOrFail($id);
         }
 
+        if($user == null) {
+            return redirect("/");
+        }
 
+        return view('user.user',['user' => $user, 'posts' => $user->posts()->paginate(20)]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the user.
      *
-     * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        return view('user.edit', ['user' => Auth::user()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'max:255',
+            'password' => 'confirmed|min:6',
+        ]);
+
+        $user = Auth::user();
+
+        $user->name = $request->input('name') ? $request->input('name') : $user->name;
+        $user->role = $request->has('editor') ? 'editor' : 'viewer';
+        if($request->has('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+
+
+        $user->save();
+
+        return redirect("home");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
+
+        return view('user.deleted');
     }
 }
