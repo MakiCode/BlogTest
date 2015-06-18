@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', 'BlogPostController@index', ["as" => 'index'] );
+Route::get('/', 'BlogPostController@index', ["as" => 'index']);
 Route::get('{id}', 'BlogPostController@show', ["as" => 'show']);
-Route::group(['middleware' => ['auth', 'role:editor']], function() {
+Route::group(['middleware' => ['auth', 'role:editor']], function () {
     Route::get('/create', 'BlogPostController@create', ["as" => 'create']);
     Route::post('/', 'BlogPostController@store', ["as" => 'store']);
     Route::get('{id}/edit', 'BlogPostController@edit', ["as" => 'edit']);
@@ -23,15 +23,14 @@ Route::group(['middleware' => ['auth', 'role:editor']], function() {
 });
 
 
+Route::get('user/{id}', 'UserController@show', ["as" => 'user.show']);
 
-Route::group(['prefix' => 'user'], function() {
-    Route::get('create', 'UserController@create', ["as" => 'user.create']);
-    Route::post('/', 'UserController@store', ["as" => 'user.store']);
-    Route::get('{user}', 'UserController@show', ["as" => 'user.show']);
-    Route::get('{user}/edit', 'UserController@edit', ["as" => 'user.edit']);
-    Route::put('{user}', 'UserController@update', ["as" => 'user.update']);
-    Route::patch('{user}', 'UserController@update', ["as" => '']);
-    Route::delete('{user}', 'UserController@destroy', ["as" => 'user.destroy']);
+Route::group(['prefix' => 'home'], function () {
+    Route::get('/', 'UserController@show', ["as" => 'me.show']);
+    Route::get('/edit', 'UserController@edit', ["as" => 'me.edit']);
+    Route::put('/', 'UserController@update', ["as" => 'me.update']);
+    Route::patch('/', 'UserController@update', ["as" => 'me.update']);
+    Route::delete('/', 'UserController@delete', ["as" => 'me.delete']);
 });
 
 //All the following was copy-pasted from the laravel docs

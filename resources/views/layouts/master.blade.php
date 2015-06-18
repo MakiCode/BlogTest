@@ -4,17 +4,19 @@
 </head>
 <body>
 <div class="banner">
-    @if (Auth::check())
+    <ul>
+        <li><a href="{{ url('/') }}">Main</a></li>
+        @if (Auth::check())
         <li><a href="{{ url('auth/logout') }}">Logout!</a></li>
 
         @if(Auth::user()->hasRole('editor'))
-            <li><a href="{{ url('/create') }}">Create</a></li>
+        <li><a href="{{ url('/create') }}">Create</a></li>
         @endif
-    @else
+        @else
         <li><a href="{{ url('auth/login') }}">Login!</a></li>
         <li><a href="{{ url('auth/register') }}">Register!</a></li>
-    @endif
-
+        @endif
+    </ul>
 
 </div>
 <div class="container">

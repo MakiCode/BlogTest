@@ -7,7 +7,16 @@
 @foreach ($posts as $post)
 <div class="post">
     <h2 class="title">{{ $post->title }}</h2>
-    @if(Auth::user
+
+    @if(Auth::user()->hasRole('editor'))
+        <a href="{{ url($post->id . '/edit') }}">Edit</a>
+        <form method="post" action="{{ url('/' . $post->id) }}">
+            <input type="hidden" name="_method" value="DELETE">
+            {!! csrf_field() !!}
+
+           <button type="submit">Delete</button>
+        </form>
+    @endif
 
     <div class="body">
         {{ $post->body }}

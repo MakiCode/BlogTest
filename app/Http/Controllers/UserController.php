@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -45,9 +47,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id = null)
     {
-        //
+        if($id == null) {
+            $user = Auth::user();
+        } else {
+            $user = User::findOrFail($id);
+        }
+
+
     }
 
     /**

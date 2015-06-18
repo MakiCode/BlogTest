@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BlogPost;
 use App\Http\Requests;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ class BlogPostController extends Controller
 {
 
     use ValidatesRequests;
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +24,7 @@ class BlogPostController extends Controller
 
         $allPosts = BlogPost::orderBy('created_at', 'desc')->paginate(15);
 
-        if($request->ajax() || $request->wantsJson()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return $allPosts;
         }
 
@@ -37,7 +39,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        return view('blog.form');
+        return view('blog.create');
     }
 
     /**
@@ -48,7 +50,7 @@ class BlogPostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|unique:blog_posts|max:255',
+            'title' => 'required|max:255',
             'body' => 'required',
         ]);
 
@@ -69,7 +71,12 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        return view("blog.one", ['post' => BlogPost::find($id)]);
+        try {
+            return view("blog.one", ['post' => BlogPost::findOrFail($id)]);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
     }
 
     /**
@@ -80,8 +87,13 @@ class BlogPostController extends Controller
      */
     public function edit($id)
     {
-        $post = BlogPost::find($id);
-        return view('blog.form', ['post' => $post]);
+        try {
+            $post = BlogPost::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+        return view('blog.update', ['post' => $post]);
+
     }
 
     /**
@@ -90,9 +102,22 @@ class BlogPostController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'max:255',
+        ]);
+        try {
+            $post = BlogPost::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+        $post->title = $request->has('title') ? $request->input('title') : $post->title;
+        $post->body = $request->has('body') ? $request->input('body') : $post->body;
+
+        $post->save();
+
+        return redirect("/" . $id);
     }
 
     /**
@@ -103,6 +128,8 @@ class BlogPostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        BlogPost::destroy($id);
+
+        return view('blog.delete');
     }
 }

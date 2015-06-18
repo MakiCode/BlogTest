@@ -1,1 +1,1 @@
-Blog,  user system, allows only authorized users to edit/delete/create posts
+Blog DONE,  user system, Pretty, tests
