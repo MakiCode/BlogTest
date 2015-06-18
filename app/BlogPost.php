@@ -14,7 +14,7 @@ class BlogPost extends Model
     /**
      * @var array The database columns that are mass assignable, a whitelist
      */
-    protected $fillable = ["title", "body", "creator"];
+    protected $fillable = ["title", "body", "user_id"];
 
     public function user() {
         return $this->belongsTo(User::class);

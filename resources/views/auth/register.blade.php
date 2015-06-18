@@ -27,6 +27,10 @@
     </div>
 
     <div>
+        <input type="checkbox" name="editor"> Editor?
+    </div>
+
+    <div>
         <button type="submit">Register</button>
     </div>
 </form>

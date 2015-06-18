@@ -1,7 +1,17 @@
-<?php
-/**
- * Created by IntelliJ IDEA.
- * User: Huulktya
- * Date: 6/18/15
- * Time: 1:44 AM
- */ 
+<form method="POST" action="/">
+    {!! csrf_field() !!}
+
+    <div>
+        Title
+        <input type="input" name="title" value="{{ $post->title  or ""}}">
+    </div>
+
+    <div>
+        Content
+        <textarea name="body">{{ $post->body or ""}}</textarea>
+    </div>
+
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>

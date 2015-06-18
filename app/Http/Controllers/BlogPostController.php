@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\BlogPost;
 use App\Http\Requests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogPostController extends Controller
 {
+
+    use ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
@@ -15,11 +19,13 @@ class BlogPostController extends Controller
      */
     public function index(Request $request)
     {
-        $count = $request->input('count', 0);
-        $blogPostsPerPage = 20;
+
         $allPosts = BlogPost::orderBy('created_at', 'desc')->paginate(15);
 
-        //This allows me to make a `next 10 articles` link in the view
+        if($request->ajax() || $request->wantsJson()) {
+            return $allPosts;
+        }
+
         return view("blog.all", ['posts' => $allPosts]
         );
     }
@@ -31,7 +37,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        //
+        return view('blog.form');
     }
 
     /**
@@ -39,9 +45,20 @@ class BlogPostController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|unique:blog_posts|max:255',
+            'body' => 'required',
+        ]);
+
+        BlogPost::create([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect("/");
     }
 
     /**
@@ -52,7 +69,7 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        //
+        return view("blog.one", ['post' => BlogPost::find($id)]);
     }
 
     /**
@@ -63,7 +80,8 @@ class BlogPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = BlogPost::find($id);
+        return view('blog.form', ['post' => $post]);
     }
 
     /**

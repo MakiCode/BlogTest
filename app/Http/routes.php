@@ -12,14 +12,14 @@
 */
 
 Route::get('/', 'BlogPostController@index', ["as" => 'index'] );
-Route::get('{}', 'BlogPostController@show', ["as" => 'show']);
+Route::get('{id}', 'BlogPostController@show', ["as" => 'show']);
 Route::group(['middleware' => ['auth', 'role:editor']], function() {
     Route::get('/create', 'BlogPostController@create', ["as" => 'create']);
     Route::post('/', 'BlogPostController@store', ["as" => 'store']);
-    Route::get('{}/edit', 'BlogPostController@edit', ["as" => 'edit']);
-    Route::put('{}', 'BlogPostController@update', ["as" => 'update']);
-    Route::patch('{}', 'BlogPostController@update', ["as" => '']);
-    Route::delete('{}', 'BlogPostController@destroy', ["as" => 'destroy']);
+    Route::get('{id}/edit', 'BlogPostController@edit', ["as" => 'edit']);
+    Route::put('{id}', 'BlogPostController@update', ["as" => 'update']);
+    Route::patch('{id}', 'BlogPostController@update', ["as" => '']);
+    Route::delete('{id}', 'BlogPostController@destroy', ["as" => 'destroy']);
 });
 
 
