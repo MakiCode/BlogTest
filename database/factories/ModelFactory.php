@@ -21,7 +21,7 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
-$factory->define(App\User::class, "editor", function ($faker) use ($factory) {
+$factory->defineAs(App\User::class, "editor", function ($faker) use ($factory) {
     $user = $factory->raw(App\User::class);
     return array_merge(["role" => "editor"]);
 });
@@ -30,9 +30,10 @@ $factory->define(App\User::class, "editor", function ($faker) use ($factory) {
 
 $factory->define(App\BlogPost::class, function($faker) {
    return [
-       "title" => $faker->words(4),
-       "body" => $faker->paragraphs(4),
-       "creator" => $faker->randomDigitNotNull,
-       "created_at" => $faker->dateTime
+       "title" => $faker->word,
+       "body" => $faker->paragraph,
+       "user_id" => $faker->randomDigitNotNull,
+       "created_at" => $faker->dateTime,
+       "updated_at" => $faker->dateTime
    ];
 });

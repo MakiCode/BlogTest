@@ -11,6 +11,11 @@ class BlogPostSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $this->command->info("Emptying blog posts table...");
+        DB::table("blog_posts")->delete();
+        $this->command->info("Done!");
+        $this->command->info("Creating 20 blog posts...");
+        factory(\App\BlogPost::class, 20)->create();
+        $this->command->info("Done!");
     }
 }

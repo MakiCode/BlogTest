@@ -13,8 +13,8 @@ class BlogPostRelations extends Migration
     public function up()
     {
         Schema::table("blog_posts", function (Blueprint $table) {
-            $table->integer("creator")->unsigned()->notNull();
-            $table->foreign("creator")->references("id")->on("users");
+            $table->integer("user_id")->unsigned()->notNull();
+            $table->foreign("user_id")->references("id")->on("users");
         });
     }
 
@@ -26,7 +26,7 @@ class BlogPostRelations extends Migration
     public function down()
     {
         Schema::table("blog_posts", function (Blueprint $table) {
-            $table->dropForeign('blog_posts_creator_foreign');
+            $table->dropForeign('blog_post_user_id_foreign');
         });
     }
 }
