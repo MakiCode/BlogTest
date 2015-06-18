@@ -15,7 +15,7 @@ class BlogPostSeeder extends Seeder
         DB::table("blog_posts")->delete();
         $this->command->info("Done!");
         $this->command->info("Creating 20 blog posts...");
-        factory(\App\BlogPost::class, 20)->create();
+        factory(\App\BlogPost::class, 60)->create();
         $this->command->info("Done!");
     }
 }

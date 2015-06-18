@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call("BlogPostSeeder");
         $this->command->info('Shutting down...');
 
+        //Unnecessary, MySQL only remembers this for one connections, but good for clarity
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Model::reguard();
     }
